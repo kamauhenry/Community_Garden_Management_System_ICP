@@ -26,9 +26,11 @@ import { v4 as uuidv4 } from "uuid";
 
 // Define the User class to represent users of the platform
 const User = Record({
-  id: text,
+  userId: text,
+  owner: Principal,
   name: text,
   email: text,
+  phoneNumber: text,
   createdAt: text,
 });
 
@@ -66,6 +68,21 @@ const Event = Record({
   createdAt: text,
 });
 
+// Message
+const Message = Variant({
+  Success: text,
+  Error: text,
+  NotFound: text,
+  InvalidPayload: text,
+});
+
+// User Payload
+const UserPayload = Record({
+  name: text,
+  email: text,
+  phoneNumber: text,
+});
+
 // Initialize stable maps for storing garden data
 const usersStorage = StableBTreeMap(0, text, User);
 const plotsStorage = StableBTreeMap(1, text, Plot);
@@ -76,25 +93,55 @@ const eventsStorage = StableBTreeMap(4, text, Event);
 // Canister Definition
 export default Canister({
   // Create a new user
-  createUser: update(
-    [text, text],
-    Result(User, text),
-    (name, email) => {
-      if (!name || !email) {
-        return Err("Invalid input: Ensure 'name' and 'email' are provided and are strings.");
-      }
-
-      const user = {
-        id: uuidv4(),
-        name: name,
-        email: email,
-        createdAt: ic.time().toString(),
-      };
-
-      usersStorage.insert(user.id, user);
-      return Ok(user);
+  createUserProfile: update([UserPayload], Result(User, Message), (payload) => {
+    // Validate the payload
+    if (!payload.name || !payload.email || !payload.phoneNumber) {
+      return Err({
+        InvalidPayload:
+          "Ensure 'name', 'email', and 'phoneNumber' are provided.",
+      });
     }
-  ),
+
+    // Check for valid email format
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailRegex.test(payload.email)) {
+      return Err({
+        InvalidPayload:
+          "Invalid email format: Ensure the email is in the correct format.",
+      });
+    }
+
+    // Ensure the email for each user is unique
+    const users = usersStorage.values();
+    for (const user of users) {
+      if (user.email === payload.email) {
+        return Err({
+          InvalidPayload: "Email already exists: Ensure the email is unique.",
+        });
+      }
+    }
+
+    // Validate the phoneNumber
+    const phoneNumberRegex = /^\d{10}$/;
+    if (!phoneNumberRegex.test(payload.phoneNumber)) {
+      return Err({
+        InvalidPayload:
+          "Invalid phone number: Ensure the phone number is in the correct format.",
+      });
+    }
+
+    // Create the user after validation
+    const userId = uuidv4();
+    const user = {
+      ...payload,
+      userId,
+      owner: ic.caller(),
+      createdAt: ic.time().toString(), // Add createdAt field
+    };
+
+    usersStorage.insert(userId, user);
+    return Ok(user);
+  }),
 
   // Retrieve all users
   getUsers: query([], Vec(User), () => {
@@ -107,7 +154,9 @@ export default Canister({
     Result(Plot, text),
     (userId, size, location, reservedUntil) => {
       if (!userId || !size || !location || !reservedUntil) {
-        return Err("Invalid input: Ensure 'userId', 'size', 'location', and 'reservedUntil' are provided and are of the correct types.");
+        return Err(
+          "Invalid input: Ensure 'userId', 'size', 'location', and 'reservedUntil' are provided and are of the correct types."
+        );
       }
 
       const plot = {
@@ -135,7 +184,9 @@ export default Canister({
     Result(Activity, text),
     (plotId, description, date) => {
       if (!plotId || !description || !date) {
-        return Err("Invalid input: Ensure 'plotId', 'description', and 'date' are provided and are of the correct types.");
+        return Err(
+          "Invalid input: Ensure 'plotId', 'description', and 'date' are provided and are of the correct types."
+        );
       }
 
       const activity = {
@@ -162,7 +213,9 @@ export default Canister({
     Result(Resource, text),
     (name, quantity, available) => {
       if (!name || quantity <= 0 || typeof available !== "boolean") {
-        return Err("Invalid input: Ensure 'name', 'quantity', and 'available' are provided and are of the correct types.");
+        return Err(
+          "Invalid input: Ensure 'name', 'quantity', and 'available' are provided and are of the correct types."
+        );
       }
 
       const resource = {
@@ -189,7 +242,9 @@ export default Canister({
     Result(Event, text),
     (title, description, date, location) => {
       if (!title || !description || !date || !location) {
-        return Err("Invalid input: Ensure 'title', 'description', 'date', and 'location' are provided and are of the correct types.");
+        return Err(
+          "Invalid input: Ensure 'title', 'description', 'date', and 'location' are provided and are of the correct types."
+        );
       }
 
       const event = {

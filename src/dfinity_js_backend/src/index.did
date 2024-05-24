@@ -3,10 +3,10 @@ service: () -> {
     createEvent: (text, text, text, text) -> (variant {Ok:record {id:text; title:text; date:text; createdAt:text; description:text; location:text}; Err:text});
     createPlot: (text, text, text, text) -> (variant {Ok:record {id:text; userId:text; createdAt:text; size:text; reservedUntil:text; location:text}; Err:text});
     createResource: (text, nat64, bool) -> (variant {Ok:record {id:text; name:text; createdAt:text; available:bool; quantity:nat64}; Err:text});
-    createUser: (text, text) -> (variant {Ok:record {id:text; name:text; createdAt:text; email:text}; Err:text});
+    createUserProfile: (record {name:text; email:text; phoneNumber:text}) -> (variant {Ok:record {owner:principal; userId:text; name:text; createdAt:text; email:text; phoneNumber:text}; Err:variant {Error:text; InvalidPayload:text; NotFound:text; Success:text}});
     getActivities: () -> (vec record {id:text; plotId:text; date:text; createdAt:text; description:text}) query;
     getEvents: () -> (vec record {id:text; title:text; date:text; createdAt:text; description:text; location:text}) query;
     getPlots: () -> (vec record {id:text; userId:text; createdAt:text; size:text; reservedUntil:text; location:text}) query;
     getResources: () -> (vec record {id:text; name:text; createdAt:text; available:bool; quantity:nat64}) query;
-    getUsers: () -> (vec record {id:text; name:text; createdAt:text; email:text}) query;
+    getUsers: () -> (vec record {owner:principal; userId:text; name:text; createdAt:text; email:text; phoneNumber:text}) query;
 }
