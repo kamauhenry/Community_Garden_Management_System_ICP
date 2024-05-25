@@ -10,7 +10,7 @@ function HomeLanding() {
         <p>
           Manage your garden plots, activities, resources, and events with ease.
         </p>
-        <Link to="/login">
+        <Link to="/profile?canisterId=br5f7-7uaaa-aaaaa-qaaca-cai">
           <Button variant="primary">Get Started</Button>
         </Link>
       </header>

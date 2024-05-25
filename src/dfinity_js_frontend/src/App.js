@@ -8,9 +8,7 @@ import "./index.css";
 // import "./styles/font.css";
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import Home from "./pages/Home/Home";
-import Donor from "./pages/Donor/Donor"
-import Receiver from "./pages/Receiver/Receiver";
-import Driver from "./pages/Driver/Driver";
+import UserProfile from "./pages/Profile/Profile";
 
 
 
@@ -22,9 +20,7 @@ const App = function AppWrapper() {
       <Router>
         <Routes>
           <Route path="/" element={<Home />} />
-          <Route path="/donor" element={<Donor />} />
-          <Route path="/receiver" element={<Receiver />} />
-          <Route path="/driver" element={<Driver />} />
+          <Route path="/profile" element={<UserProfile />} />
         </Routes>
       </Router>
  
