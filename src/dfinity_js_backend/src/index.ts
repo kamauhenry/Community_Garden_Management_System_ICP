@@ -143,9 +143,26 @@ export default Canister({
     return Ok(user);
   }),
 
-  // Retrieve all users
-  getUsers: query([], Vec(User), () => {
-    return usersStorage.values();
+  // Get user by userId
+  getUserProfile: query([text], Result(User, Message), (userId) => {
+    const userOpt = usersStorage.get(userId);
+    if ("None" in userOpt) {
+      return Err({ NotFound: "User not found" });
+    }
+
+    return Ok(userOpt["Some"]);
+  }),
+
+  // Get User Profile by owner principal
+  getUserProfileByOwner: query([], Result(User, Message), () => {
+    const userProfile = usersStorage.values().filter((user) => {
+      return user.owner === ic.caller().toText();
+    });
+    if (userProfile.length === 0) {
+      return Err({ NotFound: "User not found" });
+    }
+
+    return Ok(userProfile[0]);
   }),
 
   // Create a new plot
