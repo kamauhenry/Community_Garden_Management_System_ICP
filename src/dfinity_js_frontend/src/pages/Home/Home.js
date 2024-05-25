@@ -1,14 +1,18 @@
-import React from 'react';
-import { Container, Row, Col, Button, Card } from 'react-bootstrap';
-// import './HomeLanding.css';
+import React from "react";
+import { Container, Row, Col, Button, Card } from "react-bootstrap";
+import { Link } from "react-router-dom";
 
 function HomeLanding() {
   return (
     <Container className="home-container">
       <header className="hero-section text-center">
         <h1>Welcome to the Garden Platform</h1>
-        <p>Manage your garden plots, activities, resources, and events with ease.</p>
-        <Button href="/plots" variant="light" className="cta-button">Get Started</Button>
+        <p>
+          Manage your garden plots, activities, resources, and events with ease.
+        </p>
+        <Link to="/login">
+          <Button variant="primary">Get Started</Button>
+        </Link>
       </header>
       <section className="info-section text-center">
         <Row>
@@ -36,9 +40,7 @@ function HomeLanding() {
             <Card className="info-card">
               <Card.Body>
                 <Card.Title>Resources</Card.Title>
-                <Card.Text>
-                  Share and manage gardening resources.
-                </Card.Text>
+                <Card.Text>Share and manage gardening resources.</Card.Text>
               </Card.Body>
             </Card>
           </Col>
