@@ -46,7 +46,7 @@ const UserProfile = () => {
                         <p>{user.phoneNumber}</p>
                     </main>
                 ) : (   
-                    <SignUser fetchUserProfile={fetchUserProfile} />
+                    <SignUser/>
                 )
             ) : (
                 <Loader />
