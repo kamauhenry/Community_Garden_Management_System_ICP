@@ -3,6 +3,7 @@ import { login } from "../../utils/auth";
 import { Notification } from "../../components/utils/Notifications";
 import Wallet from "../../components/Wallet";
 import UserDashboard from "./UserDashboard";
+import UserProfile1 from "../../components/UserManager/UserProfile";
 import CreateUserProfile from "../../components/UserManager/CreateUserProfile";
 import { getUserProfileByOwner } from "../../utils/communityGarden";
 import Login from "./Login";
@@ -49,7 +50,7 @@ const UserProfile = () => {
                 </Nav.Item>
               </Nav>
               <main>
-                <UserDashboard user={user} />
+                <UserProfile1 user={user} />
               </main>
             </>
           ) : (

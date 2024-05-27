@@ -20,7 +20,7 @@ const App = function AppWrapper() {
     <>
       <Router>
         <Routes>
-          <Route path="/" element={<Profile />} />
+          <Route path="/" element={<Home />} />
           <Route path="/profile" element={<UserProfile />} />
         </Routes>
       </Router>
