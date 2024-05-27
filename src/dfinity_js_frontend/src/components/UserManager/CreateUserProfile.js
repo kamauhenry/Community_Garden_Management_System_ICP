@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { createUserProfile } from "../../utils/communityGarden";
 
-const CreateUserProfile = ({ fetchUser }) => {
+const CreateUserProfile = ({ fetchUserProfile }) => {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [phoneNumber, setphoneNumber] = useState("");
@@ -11,8 +11,15 @@ const CreateUserProfile = ({ fetchUser }) => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      await createUserProfile({ name, email, phoneNumber });
-      fetchUser();
+      const user = {
+        name,
+        email,
+        phoneNumber,
+      };
+      await createUserProfile(user).then((res) => {
+        console.log(res);
+        fetchUserProfile();
+      });
     } catch (error) {
       console.log(error);
     }
@@ -62,7 +69,7 @@ const CreateUserProfile = ({ fetchUser }) => {
 
                       <div className="form-outline mb-4">
                         <label className="form-label" htmlFor="form3Example4cg">
-                          Your phoneNumber Number
+                          Your phoneNumber
                         </label>
                         <input
                           type="text"

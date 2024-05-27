@@ -9,6 +9,7 @@ import "./index.css";
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import Home from "./pages/Home/Home";
 import UserProfile from "./pages/Profile/Profile";
+import Profile from "./pages/Profile/UserDashboard";
 
 
 
@@ -19,7 +20,7 @@ const App = function AppWrapper() {
     <>
       <Router>
         <Routes>
-          <Route path="/" element={<Home />} />
+          <Route path="/" element={<Profile />} />
           <Route path="/profile" element={<UserProfile />} />
         </Routes>
       </Router>
