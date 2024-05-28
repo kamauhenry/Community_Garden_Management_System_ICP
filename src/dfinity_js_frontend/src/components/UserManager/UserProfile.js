@@ -1,34 +1,28 @@
 import React from "react";
-import { Row, Col, Image } from "react-bootstrap";
+import { Row, Col, Image, Card } from "react-bootstrap";
 
 const UserProfile1 = ({ user }) => {
   const { name, email, phoneNumber, createdAt } = user;
-  console.log(user);
 
   return (
-    <Row
-      className="d-flex justify-content-center align-items-center p-2"
-      style={{
-        backgroundColor: "gray",
-        borderRadius: "20px",
-        boxShadow: "0 4px 6px rgba(0, 0, 0, 0.1)",
-      }}
-    >
-      <Col className="flex-1">
-        <Image
-          src="https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-chat/ava3.webp"
-          alt="avatar"
-          className="rounded-circle"
-          style={{ width: "150px" }}
-        />
-      </Col>
-      <Col className="flex-1">
-        <h3>{name}</h3>
-        <p>Email: {email}</p>
-        <p>Phone Number: {phoneNumber}</p>
-        {/* <p>Member Since: {new Date(createdAt).toLocaleDateString()}</p> */}
-      </Col>
-    </Row>
+    <Card className="p-3 shadow-sm" style={{ borderRadius: "15px", backgroundColor: "#f8f9fa" }}>
+      <Row className="d-flex justify-content-center align-items-center">
+        <Col xs={12} className="d-flex justify-content-center mb-3">
+          <Image
+            src="https://randomuser.me/api/portraits/men/75.jpg" // Updated avatar URL
+            alt="avatar"
+            className="rounded-circle"
+            style={{ width: "100px", height: "100px", objectFit: "cover" }}
+          />
+        </Col>
+        <Col xs={12} className="text-center">
+          <h3>{name}</h3>
+          <p className="text-muted mb-1">{email}</p>
+          <p className="text-muted mb-1">{phoneNumber}</p>
+          <p className="text-muted mb-1">Member Since: {new Date(Number(createdAt)).toLocaleDateString()}</p>
+        </Col>
+      </Row>
+    </Card>
   );
 };
 
