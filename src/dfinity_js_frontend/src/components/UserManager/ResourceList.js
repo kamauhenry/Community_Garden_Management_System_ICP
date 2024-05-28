@@ -1,7 +1,7 @@
 import React from "react";
-import { Card, Table, Container } from "react-bootstrap";
+import { Card, Table, Container, Button } from "react-bootstrap";
 
-const ResourceList = ({ resources }) => {
+const ResourceList = ({ resources, onAddOrUpdate }) => {
   return (
     <div className="mx-5">
       <Container className="mt-2">
@@ -34,6 +34,11 @@ const ResourceList = ({ resources }) => {
               ))}
             </tbody>
           </Table>
+          <div className="d-flex justify-content-center mt-3">
+            <Button variant="primary" onClick={onAddOrUpdate}>
+              Add or Update Resource
+            </Button>
+          </div>
         </Card>
       </Container>
     </div>

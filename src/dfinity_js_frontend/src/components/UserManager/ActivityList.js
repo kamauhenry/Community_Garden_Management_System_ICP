@@ -1,7 +1,7 @@
 import React from "react";
-import { Card, Table, Container } from "react-bootstrap";
+import { Card, Table, Container, Button } from "react-bootstrap";
 
-const ActivityList = ({ activities }) => {
+const ActivityList = ({ activities, onAddOrUpdate }) => {
   return (
     <div className="mx-5">
       <Container className="mt-2">
@@ -10,7 +10,7 @@ const ActivityList = ({ activities }) => {
           style={{
             borderRadius: "15px",
             backgroundColor: "#f8f9fa",
-            minWidth: "600px", 
+            minWidth: "600px",
           }}
         >
           <h2 className="text-center mb-4">Your Activities</h2>
@@ -34,6 +34,11 @@ const ActivityList = ({ activities }) => {
               ))}
             </tbody>
           </Table>
+          <div className="d-flex justify-content-center mt-3">
+            <Button variant="primary" onClick={onAddOrUpdate}>
+              Add or Update Activity
+            </Button>
+          </div>
         </Card>
       </Container>
     </div>
