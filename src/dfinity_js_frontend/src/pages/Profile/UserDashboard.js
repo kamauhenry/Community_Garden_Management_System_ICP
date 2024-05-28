@@ -1,6 +1,11 @@
 import React, { useEffect, useState } from "react";
-import { Container, Row, Col } from "react-bootstrap";
-import { getAllPlots, getAllActivities, getAllResources, getAllEvents } from "../../utils/communityGarden"; 
+import { Container, Row, Col, Card } from "react-bootstrap";
+import {
+  getAllPlots,
+  getAllActivities,
+  getAllResources,
+  getAllEvents,
+} from "../../utils/communityGarden";
 import PlotList from "../../components/UserManager/PlotList";
 import ActivityList from "../../components/UserManager/ActivityList";
 import ResourceList from "../../components/UserManager/ResourceList";
@@ -23,8 +28,7 @@ const UserDashboard = ({ user }) => {
     try {
       setPlots(await getAllPlots());
       console.log("Plots fetched:", plots); // Debug log
-    }
-    catch (error) {
+    } catch (error) {
       console.error("Failed to fetch plots:", error);
     }
   };
