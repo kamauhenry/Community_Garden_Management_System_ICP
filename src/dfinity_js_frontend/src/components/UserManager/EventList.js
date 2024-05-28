@@ -4,10 +4,14 @@ import { Card, Table, Container } from "react-bootstrap";
 const EventList = ({ events }) => {
   return (
     <div className="mx-5">
-      <Container className="mt-2">
+      <Container className="mt-4">
         <Card
           className="p-3 shadow-sm"
-          style={{ borderRadius: "15px", backgroundColor: "#f8f9fa" }}
+          style={{
+            borderRadius: "15px",
+            backgroundColor: "#f8f9fa",
+            minWidth: "600px", // Added min-width to increase card width
+          }}
         >
           <h2 className="text-center mb-4">Community Events</h2>
           <Table striped bordered hover>

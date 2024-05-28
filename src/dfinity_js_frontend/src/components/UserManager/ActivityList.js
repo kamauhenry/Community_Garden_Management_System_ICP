@@ -7,7 +7,11 @@ const ActivityList = ({ activities }) => {
       <Container className="mt-2">
         <Card
           className="p-3 shadow-sm"
-          style={{ borderRadius: "15px", backgroundColor: "#f8f9fa" }}
+          style={{
+            borderRadius: "15px",
+            backgroundColor: "#f8f9fa",
+            minWidth: "600px", 
+          }}
         >
           <h2 className="text-center mb-4">Your Activities</h2>
           <Table striped bordered hover>
