@@ -156,7 +156,7 @@ export default Canister({
   // Get User Profile by owner principal
   getUserProfileByOwner: query([], Result(User, Message), () => {
     const userProfile = usersStorage.values().filter((user) => {
-      return user.owner === ic.caller().toText();
+      return user.owner.toText() === ic.caller().toText();
     });
     if (userProfile.length === 0) {
       return Err({ NotFound: "User not found" });
