@@ -83,6 +83,36 @@ const UserPayload = Record({
   phoneNumber: text,
 });
 
+// Plot Payload
+const PlotPayload = Record({
+  userId: text,
+  size: text,
+  location: text,
+  reservedUntil: text,
+});
+
+// Activity Payload
+const ActivityPayload = Record({
+  plotId: text,
+  description: text,
+  date: text,
+});
+
+// Resource Payload
+const ResourcePayload = Record({
+  name: text,
+  quantity: nat64,
+  available: bool,
+});
+
+// Event Payload
+const EventPayload = Record({
+  title: text,
+  description: text,
+  date: text,
+  location: text,
+});
+
 // Initialize stable maps for storing garden data
 const usersStorage = StableBTreeMap(0, text, User);
 const plotsStorage = StableBTreeMap(1, text, Plot);
@@ -166,120 +196,125 @@ export default Canister({
   }),
 
   // Create a new plot
-  createPlot: update(
-    [text, text, text, text],
-    Result(Plot, text),
-    (userId, size, location, reservedUntil) => {
-      if (!userId || !size || !location || !reservedUntil) {
-        return Err(
-          "Invalid input: Ensure 'userId', 'size', 'location', and 'reservedUntil' are provided and are of the correct types."
-        );
-      }
-
-      const plot = {
-        id: uuidv4(),
-        userId: userId,
-        size: size,
-        location: location,
-        reservedUntil: reservedUntil,
-        createdAt: ic.time().toString(),
-      };
-
-      plotsStorage.insert(plot.id, plot);
-      return Ok(plot);
+  createPlot: update([PlotPayload], Result(Plot, Message), (payload) => {
+    // Validate the payload
+    if (!payload.userId || !payload.size || !payload.location) {
+      return Err({
+        InvalidPayload:
+          "Ensure 'userId', 'size', and 'location' are provided.",
+      });
     }
+
+    // Create the plot after validation
+    const plotId = uuidv4();
+    const plot = {
+      ...payload,
+      id: plotId,
+      reservedUntil: ic.time().toString(),
+      createdAt: ic.time().toString(), // Add createdAt field
+    };
+
+    plotsStorage.insert(plotId, plot);
+    return Ok(plot);
+  }
   ),
 
+
   // Retrieve all plots
-  getPlots: query([], Vec(Plot), () => {
+  getAllPlots: query([], Vec(Plot), () => {
     return plotsStorage.values();
   }),
 
   // Create a new activity
   createActivity: update(
-    [text, text, text],
-    Result(Activity, text),
-    (plotId, description, date) => {
-      if (!plotId || !description || !date) {
-        return Err(
-          "Invalid input: Ensure 'plotId', 'description', and 'date' are provided and are of the correct types."
-        );
+    [ActivityPayload],
+    Result(Activity, Message),
+    (payload) => {
+      // Validate the payload
+      if (!payload.plotId || !payload.description || !payload.date) {
+        return Err({
+          InvalidPayload:
+            "Ensure 'plotId', 'description', and 'date' are provided.",
+        });
       }
 
+      // Create the activity after validation
+      const activityId = uuidv4();
       const activity = {
-        id: uuidv4(),
-        plotId: plotId,
-        description: description,
-        date: date,
-        createdAt: ic.time().toString(),
+        ...payload,
+        id: activityId,
+        createdAt: ic.time().toString(), // Add createdAt field
       };
 
-      activitiesStorage.insert(activity.id, activity);
+      activitiesStorage.insert(activityId, activity);
       return Ok(activity);
     }
   ),
 
   // Retrieve all activities
-  getActivities: query([], Vec(Activity), () => {
+  getAllActivities: query([], Vec(Activity), () => {
     return activitiesStorage.values();
   }),
 
   // Create a new resource
   createResource: update(
-    [text, nat64, bool],
-    Result(Resource, text),
-    (name, quantity, available) => {
-      if (!name || quantity <= 0 || typeof available !== "boolean") {
-        return Err(
-          "Invalid input: Ensure 'name', 'quantity', and 'available' are provided and are of the correct types."
-        );
+    [ResourcePayload],
+    Result(Resource, Message),
+    (payload) => {
+      // Validate the payload
+      if (!payload.name || !payload.quantity || !payload.available) {
+        return Err({
+          InvalidPayload:
+            "Ensure 'name', 'quantity', and 'available' are provided.",
+        });
       }
 
+      // Create the resource after validation
+      const resourceId = uuidv4();
       const resource = {
-        id: uuidv4(),
-        name: name,
-        quantity: quantity,
-        available: available,
-        createdAt: ic.time().toString(),
+        ...payload,
+        id: resourceId,
+        createdAt: ic.time().toString(), // Add createdAt field
       };
 
-      resourcesStorage.insert(resource.id, resource);
+      resourcesStorage.insert(resourceId, resource);
       return Ok(resource);
     }
   ),
 
   // Retrieve all resources
-  getResources: query([], Vec(Resource), () => {
+  getAllResources: query([], Vec(Resource), () => {
     return resourcesStorage.values();
   }),
 
   // Create a new event
   createEvent: update(
-    [text, text, text, text],
-    Result(Event, text),
-    (title, description, date, location) => {
-      if (!title || !description || !date || !location) {
-        return Err(
-          "Invalid input: Ensure 'title', 'description', 'date', and 'location' are provided and are of the correct types."
-        );
+    [EventPayload],
+    Result(Event, Message),
+    (payload) => {
+      // Validate the payload
+      if (!payload.title || !payload.description || !payload.date || !payload.location) {
+        return Err({
+          InvalidPayload:
+            "Ensure 'title', 'description', 'date', and 'location' are provided.",
+        });
       }
 
+      // Create the event after validation
+      const eventId = uuidv4();
       const event = {
-        id: uuidv4(),
-        title: title,
-        description: description,
-        date: date,
-        location: location,
-        createdAt: ic.time().toString(),
+        ...payload,
+        id: eventId,
+        createdAt: ic.time().toString(), // Add createdAt field
       };
 
-      eventsStorage.insert(event.id, event);
+      eventsStorage.insert(eventId, event);
       return Ok(event);
     }
   ),
 
   // Retrieve all events
-  getEvents: query([], Vec(Event), () => {
+  getAllEvents: query([], Vec(Event), () => {
     return eventsStorage.values();
   }),
 });

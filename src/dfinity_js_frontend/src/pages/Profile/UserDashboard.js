@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { Container, Row, Col } from "react-bootstrap";
-// import UserProfile from "../../components/UserManager/UserProfile";
+import { getAllPlots, getAllActivities, getAllResources, getAllEvents } from "../../utils/communityGarden"; 
 import PlotList from "../../components/UserManager/PlotList";
 import ActivityList from "../../components/UserManager/ActivityList";
 import ResourceList from "../../components/UserManager/ResourceList";
@@ -21,19 +21,18 @@ const UserDashboard = ({ user }) => {
 
   const fetchPlots = async () => {
     try {
-      const response = await fetch("/plots");
-      const data = await response.json();
-      setPlots(data.plots);
-    } catch (error) {
+      setPlots(await getAllPlots());
+      console.log("Plots fetched:", plots); // Debug log
+    }
+    catch (error) {
       console.error("Failed to fetch plots:", error);
     }
   };
 
   const fetchActivities = async () => {
     try {
-      const response = await fetch("/activities");
-      const data = await response.json();
-      setActivities(data.activities);
+      setActivities(await getAllActivities());
+      console.log("Activities fetched:", activities); // Debug log
     } catch (error) {
       console.error("Failed to fetch activities:", error);
     }
@@ -41,9 +40,8 @@ const UserDashboard = ({ user }) => {
 
   const fetchResources = async () => {
     try {
-      const response = await fetch("/resources");
-      const data = await response.json();
-      setResources(data.resources);
+      setResources(await getAllResources());
+      console.log("Resources fetched:", resources); // Debug log
     } catch (error) {
       console.error("Failed to fetch resources:", error);
     }
@@ -51,9 +49,8 @@ const UserDashboard = ({ user }) => {
 
   const fetchEvents = async () => {
     try {
-      const response = await fetch("/events");
-      const data = await response.json();
-      setEvents(data.events);
+      setEvents(await getAllEvents());
+      console.log("Events fetched:", events); // Debug log
     } catch (error) {
       console.error("Failed to fetch events:", error);
     }
@@ -61,24 +58,19 @@ const UserDashboard = ({ user }) => {
 
   return (
     <Container className="mt-2">
-      {/* <UserProfile user={user} /> */}
       <Row className="mx-2 my-4">
         <Col md={6}>
-          {/* <h2>Your Plots</h2> */}
           <PlotList plots={plots} />
         </Col>
         <Col md={6}>
-          {/* <h2>Your Activities</h2> */}
           <ActivityList activities={activities} />
         </Col>
       </Row>
       <Row className="mx-2 my-4">
         <Col md={6}>
-          {/* <h2>Available Resources</h2> */}
           <ResourceList resources={resources} />
         </Col>
         <Col md={6}>
-          {/* <h2>Community Events</h2> */}
           <EventList events={events} />
         </Col>
       </Row>
