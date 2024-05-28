@@ -61,25 +61,24 @@ const UserDashboard = ({ user }) => {
 
   return (
     <Container className="mt-2">
-      <h1>User Dashboard</h1>
       {/* <UserProfile user={user} /> */}
       <Row className="mx-2 my-4">
         <Col md={6}>
-          <h2>Your Plots</h2>
+          {/* <h2>Your Plots</h2> */}
           <PlotList plots={plots} />
         </Col>
         <Col md={6}>
-          <h2>Your Activities</h2>
+          {/* <h2>Your Activities</h2> */}
           <ActivityList activities={activities} />
         </Col>
       </Row>
       <Row className="mx-2 my-4">
         <Col md={6}>
-          <h2>Available Resources</h2>
+          {/* <h2>Available Resources</h2> */}
           <ResourceList resources={resources} />
         </Col>
         <Col md={6}>
-          <h2>Community Events</h2>
+          {/* <h2>Community Events</h2> */}
           <EventList events={events} />
         </Col>
       </Row>
