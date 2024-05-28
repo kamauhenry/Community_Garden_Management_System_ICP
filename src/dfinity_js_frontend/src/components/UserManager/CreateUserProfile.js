@@ -8,7 +8,7 @@ const CreateUserProfile = ({ fetchUserProfile }) => {
 
   const isFormFilled = () => name && email && phoneNumber;
 
-  const handleSubmit = async (e) => {
+  const handleSubmit = async () => {
     e.preventDefault();
     try {
       const user = {
@@ -38,7 +38,7 @@ const CreateUserProfile = ({ fetchUserProfile }) => {
                       Create an account
                     </h2>
 
-                    <form>
+                    <form onSubmit={handleSubmit}>
                       <div className="form-outline mb-4">
                         <label className="form-label" htmlFor="form3Example1cg">
                           Your Name
@@ -84,8 +84,7 @@ const CreateUserProfile = ({ fetchUserProfile }) => {
                       <div className="d-flex justify-content-center">
                         <button
                           disabled={!isFormFilled()}
-                          onClick={handleSubmit}
-                          type="button"
+                          type="submit"
                           className="btn btn-success btn-block btn-lg gradient-custom-4 text-body"
                         >
                           Register

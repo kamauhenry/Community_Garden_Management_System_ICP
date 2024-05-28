@@ -20,12 +20,10 @@ const UserProfile = () => {
   const fetchUserProfile = useCallback(async () => {
     try {
       setLoading(true);
-      setUser(
-        await getUserProfileByOwner().then(async (res) => {
-          console.log(res);
-          return res;
-        })
-      );
+      const response = await getUserProfileByOwner();
+      const userProfile = response.Ok; // Adjusting to fetch the nested Ok object
+      console.log("User Profile Fetched:", userProfile); // Debug log
+      setUser(userProfile);
       setLoading(false);
     } catch (error) {
       console.log(error);

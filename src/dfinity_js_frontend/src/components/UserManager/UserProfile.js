@@ -1,8 +1,9 @@
 import React from "react";
 import { Row, Col, Image } from "react-bootstrap";
 
-const UserProfile = ({ user }) => {
+const UserProfile1 = ({ user }) => {
   const { name, email, phoneNumber, createdAt } = user;
+  console.log(user);
 
   return (
     <Row
@@ -25,10 +26,10 @@ const UserProfile = ({ user }) => {
         <h3>{name}</h3>
         <p>Email: {email}</p>
         <p>Phone Number: {phoneNumber}</p>
-        <p>Member Since: {new Date(createdAt).toLocaleDateString()}</p>
+        {/* <p>Member Since: {new Date(createdAt).toLocaleDateString()}</p> */}
       </Col>
     </Row>
   );
 };
 
-export default UserProfile;
+export default UserProfile1;
