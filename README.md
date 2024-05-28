@@ -1,7 +1,6 @@
- Food Share 🥗 Documentation
-Overview
+# Community Garden Management System
 
-This documentation provides a comprehensive overview of FoodShare, a smart contract-based application designed to address food waste and combat hunger by connecting food surplus with those in need. It enables interactions between donors, receivers, and drivers through profiles, surplus postings, delivery assignments, and payment processing.
+The Community Garden Management System is designed to facilitate the management of community gardens. It allows users to reserve plots, track gardening activities, schedule maintenance tasks, and share resources. The platform includes features for user profiles, plot reservations, activity tracking, resource sharing, and community events.
 
 
 ## Things to be explained in the course:

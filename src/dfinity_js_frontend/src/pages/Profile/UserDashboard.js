@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { Container, Row, Col, Button } from "react-bootstrap";
+import { toast } from 'react-toastify';
 import { getAllPlots, getAllActivities, getAllResources, getAllEvents, createResource, createPlot, createActivity, createEvent } from "../../utils/communityGarden";
 import PlotList from "../../components/UserManager/PlotList";
 import ActivityList from "../../components/UserManager/ActivityList";
@@ -75,8 +76,10 @@ const UserDashboard = ({ user }) => {
       await createPlot(plot);
       console.log("Plot saved successfully");
       fetchPlots();
+      toast.success("Plot added successfully!");
     } catch (error) {
       console.error("Failed to save plot:", error);
+      toast.error("Failed to add plot.");
     }
   };
 
@@ -86,8 +89,10 @@ const UserDashboard = ({ user }) => {
       await createActivity(activity);
       console.log("Activity saved successfully");
       fetchActivities();
+      toast.success("Activity added successfully!");
     } catch (error) {
       console.error("Failed to save activity:", error);
+      toast.error("Failed to add activity.");
     }
   };
 
@@ -97,8 +102,10 @@ const UserDashboard = ({ user }) => {
       await createResource(resource);
       console.log("Resource saved successfully");
       fetchResources();
+      toast.success("Resource added successfully!");
     } catch (error) {
       console.error("Failed to save resource:", error);
+      toast.error("Failed to add resource.");
     }
   };
 
@@ -108,10 +115,19 @@ const UserDashboard = ({ user }) => {
       await createEvent(event);
       console.log("Event saved successfully");
       fetchEvents();
+      toast.success("Event added successfully!");
     } catch (error) {
       console.error("Failed to save event:", error);
+      toast.error("Failed to add event.");
     }
   };
+
+  if (!user || !user.userId) {
+    return <div>Loading...</div>;
+  }
+
+  console.log("User:", user); // Check user object
+  console.log("User ID:", user.userId); // Check userId
 
   return (
     <Container className="mt-2">

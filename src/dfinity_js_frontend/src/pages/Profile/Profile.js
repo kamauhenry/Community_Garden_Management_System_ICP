@@ -1,4 +1,6 @@
 import React, { useEffect, useState, useCallback } from "react";
+import { ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 import { login } from "../../utils/auth";
 import { Notification } from "../../components/utils/Notifications";
 import Wallet from "../../components/Wallet";
@@ -50,6 +52,7 @@ const UserProfile = () => {
               <main>
                 <UserProfile1 user={user} />
                 <UserDashboard user={user}/>
+                <ToastContainer />
               </main>
             </>
           ) : (
