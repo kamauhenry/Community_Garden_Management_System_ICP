@@ -49,7 +49,7 @@ const UserProfile = () => {
               </Nav>
               <main>
                 <UserProfile1 user={user} />
-                <UserDashboard />
+                <UserDashboard user={user}/>
               </main>
             </>
           ) : (

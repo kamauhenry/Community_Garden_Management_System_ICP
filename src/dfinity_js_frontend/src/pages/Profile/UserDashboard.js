@@ -1,16 +1,25 @@
 import React, { useEffect, useState } from "react";
-import { Container, Row, Col } from "react-bootstrap";
-import { getAllPlots, getAllActivities, getAllResources, getAllEvents } from "../../utils/communityGarden";
+import { Container, Row, Col, Button } from "react-bootstrap";
+import { getAllPlots, getAllActivities, getAllResources, getAllEvents, createResource, createPlot, createActivity, createEvent } from "../../utils/communityGarden";
 import PlotList from "../../components/UserManager/PlotList";
 import ActivityList from "../../components/UserManager/ActivityList";
 import ResourceList from "../../components/UserManager/ResourceList";
 import EventList from "../../components/UserManager/EventList";
+import AddPlotModal from "../../components/CRUD/AddPlotModal";
+import AddActivityModal from "../../components/CRUD/AddActivityModal";
+import AddResourceModal from "../../components/CRUD/AddResourceModal";
+import AddEventModal from "../../components/CRUD/AddEventModal";
 
 const UserDashboard = ({ user }) => {
   const [plots, setPlots] = useState([]);
   const [activities, setActivities] = useState([]);
   const [resources, setResources] = useState([]);
   const [events, setEvents] = useState([]);
+
+  const [showPlotModal, setShowPlotModal] = useState(false);
+  const [showActivityModal, setShowActivityModal] = useState(false);
+  const [showResourceModal, setShowResourceModal] = useState(false);
+  const [showEventModal, setShowEventModal] = useState(false);
 
   useEffect(() => {
     fetchPlots();
@@ -55,44 +64,95 @@ const UserDashboard = ({ user }) => {
     }
   };
 
-  const handleAddOrUpdatePlot = () => {
-    // Logic to handle adding or updating a plot
-    console.log("Add or update plot clicked");
+  const handleAddPlot = () => setShowPlotModal(true);
+  const handleAddActivity = () => setShowActivityModal(true);
+  const handleAddResource = () => setShowResourceModal(true);
+  const handleAddEvent = () => setShowEventModal(true);
+
+  const savePlot = async (plot) => {
+    try {
+      console.log("Plot to save:", plot);
+      await createPlot(plot);
+      console.log("Plot saved successfully");
+      fetchPlots();
+    } catch (error) {
+      console.error("Failed to save plot:", error);
+    }
   };
 
-  const handleAddOrUpdateActivity = () => {
-    // Logic to handle adding or updating an activity
-    console.log("Add or update activity clicked");
+  const saveActivity = async (activity) => {
+    try {
+      console.log("Activity to save:", activity);
+      await createActivity(activity);
+      console.log("Activity saved successfully");
+      fetchActivities();
+    } catch (error) {
+      console.error("Failed to save activity:", error);
+    }
   };
 
-  const handleAddOrUpdateResource = () => {
-    // Logic to handle adding or updating a resource
-    console.log("Add or update resource clicked");
+  const saveResource = async (resource) => {
+    try {
+      console.log("Resource to save:", resource);
+      await createResource(resource);
+      console.log("Resource saved successfully");
+      fetchResources();
+    } catch (error) {
+      console.error("Failed to save resource:", error);
+    }
   };
 
-  const handleAddOrUpdateEvent = () => {
-    // Logic to handle adding or updating an event
-    console.log("Add or update event clicked");
+  const saveEvent = async (event) => {
+    try {
+      console.log("Event to save:", event);
+      await createEvent(event);
+      console.log("Event saved successfully");
+      fetchEvents();
+    } catch (error) {
+      console.error("Failed to save event:", error);
+    }
   };
 
   return (
     <Container className="mt-2">
       <Row className="mx-2 my-4">
         <Col md={6}>
-          <PlotList plots={plots} onAddOrUpdate={handleAddOrUpdatePlot} />
+          <PlotList plots={plots} onAdd={handleAddPlot} />
         </Col>
         <Col md={6}>
-          <ActivityList activities={activities} onAddOrUpdate={handleAddOrUpdateActivity} />
+          <ActivityList activities={activities} onAdd={handleAddActivity} />
         </Col>
       </Row>
       <Row className="mx-2 my-4">
         <Col md={6}>
-          <ResourceList resources={resources} onAddOrUpdate={handleAddOrUpdateResource} />
+          <ResourceList resources={resources} onAdd={handleAddResource} />
         </Col>
         <Col md={6}>
-          <EventList events={events} onAddOrUpdate={handleAddOrUpdateEvent} />
+          <EventList events={events} onAdd={handleAddEvent} />
         </Col>
       </Row>
+
+      <AddPlotModal
+        show={showPlotModal}
+        handleClose={() => setShowPlotModal(false)}
+        handleSave={savePlot}
+        userId={user.userId} // Pass the userId to the modal
+      />
+      <AddActivityModal
+        show={showActivityModal}
+        handleClose={() => setShowActivityModal(false)}
+        handleSave={saveActivity}
+      />
+      <AddResourceModal
+        show={showResourceModal}
+        handleClose={() => setShowResourceModal(false)}
+        handleSave={saveResource}
+      />
+      <AddEventModal
+        show={showEventModal}
+        handleClose={() => setShowEventModal(false)}
+        handleSave={saveEvent}
+      />
     </Container>
   );
 };

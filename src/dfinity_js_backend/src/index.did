@@ -10,4 +10,5 @@ service: () -> {
     getAllResources: () -> (vec record {id:text; name:text; createdAt:text; available:bool; quantity:nat64}) query;
     getUserProfile: (text) -> (variant {Ok:record {owner:principal; userId:text; name:text; createdAt:text; email:text; phoneNumber:text}; Err:variant {Error:text; InvalidPayload:text; NotFound:text; Success:text}}) query;
     getUserProfileByOwner: () -> (variant {Ok:record {owner:principal; userId:text; name:text; createdAt:text; email:text; phoneNumber:text}; Err:variant {Error:text; InvalidPayload:text; NotFound:text; Success:text}}) query;
+    updateUserProfile: (record {name:text; email:text; phoneNumber:text}) -> (variant {Ok:record {owner:principal; userId:text; name:text; createdAt:text; email:text; phoneNumber:text}; Err:variant {Error:text; InvalidPayload:text; NotFound:text; Success:text}});
 }

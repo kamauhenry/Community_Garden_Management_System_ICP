@@ -1,7 +1,7 @@
 import React from "react";
 import { Card, Table, Container, Button } from "react-bootstrap";
 
-const EventList = ({ events, onAddOrUpdate }) => {
+const EventList = ({ events, onAdd }) => {
   return (
     <div className="mx-5">
       <Container className="mt-4">
@@ -37,8 +37,8 @@ const EventList = ({ events, onAddOrUpdate }) => {
             </tbody>
           </Table>
           <div className="d-flex justify-content-center mt-3">
-            <Button variant="primary" onClick={onAddOrUpdate}>
-              Add or Update Event
+            <Button variant="primary" onClick={onAdd}>
+              Add Event
             </Button>
           </div>
         </Card>

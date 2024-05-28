@@ -1,7 +1,7 @@
 import React from "react";
 import { Card, Table, Container, Button } from "react-bootstrap";
 
-const PlotList = ({ plots, onAddOrUpdate }) => {
+const PlotList = ({ plots, onAdd }) => {
   return (
     <div className="mx-5">
       <Container className="mt-2">
@@ -35,8 +35,8 @@ const PlotList = ({ plots, onAddOrUpdate }) => {
             </tbody>
           </Table>
           <div className="d-flex justify-content-center mt-3">
-            <Button variant="primary" onClick={onAddOrUpdate}>
-              Add or Update Plot
+            <Button variant="primary" onClick={onAdd}>
+              Add Plot
             </Button>
           </div>
         </Card>
