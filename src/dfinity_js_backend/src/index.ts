@@ -173,6 +173,61 @@ export default Canister({
     return Ok(user);
   }),
 
+  // Update user profile
+  updateUserProfile: update([UserPayload], Result(User, Message), (payload) => {
+    // Validate the payload
+    if (!payload.name || !payload.email || !payload.phoneNumber) {
+      return Err({
+        InvalidPayload:
+          "Ensure 'name', 'email', and 'phoneNumber' are provided.",
+      });
+    }
+
+    // Check for valid email format
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailRegex.test(payload.email)) {
+      return Err({
+        InvalidPayload:
+          "Invalid email format: Ensure the email is in the correct format.",
+      });
+    }
+
+    // Ensure the email for each user is unique
+    const users = usersStorage.values();
+    for (const user of users) {
+      if (user.email === payload.email) {
+        return Err({
+          InvalidPayload: "Email already exists: Ensure the email is unique.",
+        });
+      }
+    }
+
+    // Validate the phoneNumber
+    const phoneNumberRegex = /^\d{10}$/;
+    if (!phoneNumberRegex.test(payload.phoneNumber)) {
+      return Err({
+        InvalidPayload:
+          "Invalid phone number: Ensure the phone number is in the correct format.",
+      });
+    }
+
+    // Update the user after validation
+    const userId = ic.caller().toText();
+    const userOpt = usersStorage.get(userId);
+    if ("None" in userOpt) {
+      return Err({ NotFound: "User not found" });
+    }
+
+    const user = userOpt["Some"];
+    const updatedUser = {
+      ...user,
+      ...payload,
+    };
+
+    usersStorage.insert(userId, updatedUser);
+    return Ok(updatedUser);
+  }),
+
   // Get user by userId
   getUserProfile: query([text], Result(User, Message), (userId) => {
     const userOpt = usersStorage.get(userId);
